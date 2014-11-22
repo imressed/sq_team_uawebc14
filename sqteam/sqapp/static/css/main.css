@@ -87,3 +87,10 @@ body {
     height: auto;
     display: inline-block;
 }
+
+#map-canvas {
+        height: 300px;
+        width: 1000px;
+        margin: 0px;
+        padding: 0px
+      }

@@ -70,13 +70,11 @@ def incorrect_trip():
     bad_trips = []
 
     for trip in trips:
-        check_in = Check.objects.get(type='in',card_id=trip.id)
-        check_out = Check.objects.get(type='out',card_id=trip.id)
-        if trip.point_start == check_in.gate_id and trip.point_finish == check_out.gate_id:
+        check_in = Check.objects.get(type='in',trip=trip.id)
+        check_out = Check.objects.get(type='out',trip=trip.id)
+        if trip.point_start == check_in.gate and trip.point_finish == check_out.gate:
             print('good trip')
         else:
             bad_trips.append(trip)
     bad_trips_per = len(bad_trips)/len(trips)*100
     return bad_trips, bad_trips_per
-
-def total_load(request):
