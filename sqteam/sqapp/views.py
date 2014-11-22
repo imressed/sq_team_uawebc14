@@ -61,11 +61,14 @@ def signup_func(request):
 
 
 def app_view(request):
-    return render(request, 'app.html')
+    trips, per = incorrect_trip()
+    return render(request, 'app.html', {'trips': trips,
+                                        'percentage': per})
 
 def incorrect_trip():
     trips = Trip.objects.all()
     bad_trips = []
+
     for trip in trips:
         check_in = Check.objects.get(type='in',card_id=trip.id)
         check_out = Check.objects.get(type='out',card_id=trip.id)
@@ -74,5 +77,5 @@ def incorrect_trip():
         else:
             bad_trips.append(trip)
     bad_trips_per = len(bad_trips)/len(trips)*100
-    print(bad_trips, bad_trips_per)
+    return bad_trips, bad_trips_per
 
