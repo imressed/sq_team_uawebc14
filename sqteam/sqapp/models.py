@@ -100,7 +100,7 @@ class Trip(models.Model):
 
 class Card(models.Model):
     id = models.AutoField(primary_key=True)
-    number = models.CharField(max_length=100)
+    number = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.number

@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin
 
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from .models import SqUser, Trip, Check, Gate
+from .models import SqUser, Trip, Check, Gate, Card
 from .forms import UserCreationForm
 
 
@@ -62,6 +62,7 @@ admin.site.register(SqUser, SqUserAdmin)
 admin.site.register(Check)
 admin.site.register(Gate)
 admin.site.register(Trip)
+admin.site.register(Card)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)

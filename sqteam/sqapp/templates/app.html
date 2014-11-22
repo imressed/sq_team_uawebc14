@@ -47,9 +47,9 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <td>Table Footer</td>
-                            <td>Table Footer</td>
-                            <td>Table Footer</td>
+                            <td>Percentage of incorrect trips</td>
+                            <td></td>
+                            <td>{{ percentage|floatformat:2  }}%</td>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -64,10 +64,10 @@
                     </tbody>
                 </table>
                 <div class="uk-grid">
-                    <div class="uk-width-3-4">
+                    <div class="uk-width-1-2">
                         <canvas id="myChart" width="400" height="400"></canvas>
                     </div>
-                    <div class="uk-width-1-4">
+                    <div class="uk-width-1-2">
                     <div class="uk-form-row">
                         <label>Show only for transport type:</label>
                         <select id="type-select">
@@ -85,9 +85,9 @@
                         <label>Show only for period:</label>
                         <select id="period-select">
                             <option value="all">All</option>
-                            <option value="day">Day</option>
-                            <option value="week">Week</option>
-                            <option value="month">Month</option>
+                            <option value="day">Last day</option>
+                            <option value="week">Last week</option>
+                            <option value="month">Last month</option>
 
                         </select>
                     </div>
@@ -140,4 +140,8 @@
 
 {% block bottom_scripts %}
 <script src={% static "js/app.js" %}></script>
+<script>
+    myLineChart.datasets[0].bars[0].value = {{ trips_count }};
+    myLineChart.update();
+</script>
     {% endblock %}

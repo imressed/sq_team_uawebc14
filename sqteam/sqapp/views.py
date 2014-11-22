@@ -62,8 +62,10 @@ def signup_func(request):
 
 def app_view(request):
     trips, per = incorrect_trip()
+    trips_count = Trip.objects.all().count()
     return render(request, 'app.html', {'trips': trips,
-                                        'percentage': per})
+                                        'percentage': per,
+                                        'trips_count': trips_count})
 
 def incorrect_trip():
     trips = Trip.objects.all()
@@ -81,12 +83,35 @@ def incorrect_trip():
 
 
 def total_load(request):
+    from datetime import timedelta, datetime
     all_checks = Check.objects.all()
     print(all_checks)
     res = []
-    for c in all_checks:
-        if c.gate.type == 'metro':
-            res.append(c)
+    if 'type' in request.GET:
+        for c in all_checks:
+            if c.gate.type == request.GET['type']:
+                res.append(c)
+    else:
+        res.extend(all_checks)
+    print(len(res))
+    result = []
+    if 'period' in request.GET:
+        delt = None
+        perid = request.GET['period']
+        if perid == 'week':
+            delt = timedelta(weeks=1)
+        if perid == 'day':
+            delt = timedelta(days=1)
+        if perid == 'month':
+            delt = timedelta(weeks=4)
+        now = datetime.now()
+        when = now - delt
+        for c in res:
+            if c.timestamp > when:
+                result.append(c)
+    else:
+        result = res
+    print(result)
     #metro = Check.objects.filter(gate__type == 'metro') # WHAT'S WRONG????
 
-    return JsonResponse(res.count())
+    return JsonResponse(len(result), safe=False)
