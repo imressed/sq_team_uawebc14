@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^user/signup/', 'sqapp.views.signup_func', name='signup'),
     url(r'^signup/', 'sqapp.views.signup_view', name='signup view'),
     url(r'^app/', 'sqapp.views.app_view', name='app'),
+    url(r'^card', 'sqapp.views.trip_cards', name='trip_cards'),
     url(r'^load/', 'sqapp.views.total_load', name='load'),
     # url(r'^blog/', include('blog.urls')),
 

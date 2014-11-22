@@ -60,12 +60,25 @@ def signup_func(request):
                          'errors': signup_form.errors})
 
 
+
+def trip_cards(request):
+    card = Card.objects.get(number=request.GET['trip_number'])
+    trips = Trip.objects.filter(card=card)
+    points = []
+    for trip in trips:
+        start = trip.point_start
+        finish = trip.point_finish
+        points.append({'x_start':start.coord_x,'y_start':start.coord_y,'x_finish':finish.coord_x,'y_finish':finish.coord_y})
+    return JsonResponse({'trips':points})
+
+
 def app_view(request):
     trips, per = incorrect_trip()
     trips_count = Trip.objects.all().count()
+    cards = Card.objects.all()
     return render(request, 'app.html', {'trips': trips,
                                         'percentage': per,
-                                        'trips_count': trips_count})
+                                        'cards': cards})
 
 def incorrect_trip():
     trips = Trip.objects.all()

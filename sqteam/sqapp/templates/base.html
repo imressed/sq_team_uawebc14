@@ -13,6 +13,9 @@
         <script src={% static "js/jquery.cookie.js" %}></script>
         <script type="text/javascript"src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1NvYsY_o4JVGUbvI5pd2ccHv2JhHVzLc&sensor=true&language=en"></script>
         <script>
+            var line = [];
+            var check_in = [];
+            var check_out = [];
             var map;
             function initialize() {
                 directionsDisplay = new google.maps.DirectionsRenderer();
@@ -23,7 +26,6 @@
                     };
               map = new google.maps.Map(document.getElementById('map-canvas'),
                   mapOptions);
-
 
               var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(50.45, 30.5),
