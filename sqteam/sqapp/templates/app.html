@@ -110,7 +110,6 @@
                 $(function(){
                     $("#trip-button").click(function(event) {
                         event.preventDefault();
-                        alert($('#trip-number').val());
 
                         var csrftoken = $.cookie('csrftoken');
                         var trip_num = $('#trip-number').val();
@@ -123,7 +122,51 @@
                             }
                         })
                         .done(function(msg) {
-                            alert(msg);
+                            for (i=0; i<line.length; i++)
+                            {
+                              line[i].setMap(null);
+                            }
+                            for (i=0; i<check_in.length; i++)
+                            {
+                              check_in[i].setMap(null);
+                            }
+                            for (i=0; i<check_out.length; i++)
+                            {
+                              check_out[i].setMap(null);
+                            }
+                            line = [];
+                            check_in = [];
+                            check_out = [];
+                            color = ['red', 'green', 'yellow', 'purple', 'blue', 'white', 'black'];
+                            $.each(msg.trips,function(field, error) {
+                                 var marker_in = new google.maps.Marker({
+                                    position: new google.maps.LatLng(msg.trips[field].y_start, msg.trips[field].x_start),
+                                    title: 'Check-in #'+field,
+                                    icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                                    map: map,
+                                    animation: google.maps.Animation.DROP,
+                                    draggable: false
+                                });
+                                check_in.push(marker_in)
+                                var marker_out = new google.maps.Marker({
+                                    position: new google.maps.LatLng(msg.trips[field].y_finish, msg.trips[field].x_finish),
+                                    title: 'Check-out #'+field,
+                                    icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                                    map: map,
+                                    animation: google.maps.Animation.DROP,
+                                    draggable: false
+                                });
+                                check_out.push(marker_out)
+                                var polyline = new google.maps.Polyline({
+                                    path: [new google.maps.LatLng(msg.trips[field].y_start, msg.trips[field].x_start), new google.maps.LatLng(msg.trips[field].y_finish, msg.trips[field].x_finish)],
+                                    strokeColor: color[color.length%(field+1)],
+                                    strokeOpacity: 1.0,
+                                    strokeWeight: 10,
+                                    geodesic: true,
+                                    map: map
+                                });
+                                line.push(polyline)
+                            })
 
                         });
                     });

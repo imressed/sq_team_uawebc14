@@ -13,6 +13,9 @@
         <script src={% static "js/jquery.cookie.js" %}></script>
         <script type="text/javascript"src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1NvYsY_o4JVGUbvI5pd2ccHv2JhHVzLc&sensor=true&language=en"></script>
         <script>
+            var line = [];
+            var check_in = [];
+            var check_out = [];
             var map;
             function initialize() {
                 directionsDisplay = new google.maps.DirectionsRenderer();
@@ -24,14 +27,6 @@
               map = new google.maps.Map(document.getElementById('map-canvas'),
                   mapOptions);
 
-
-              var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(50.45, 30.5),
-                title: 'Metro',
-                map: map,
-                animation: google.maps.Animation.DROP,
-                draggable: false
-            });
             google.maps.event.addListener(marker, 'click', function () {
                 var infowindow = new google.maps.InfoWindow({
                     content: "<div style = 'height: 100%;margin: 2px;padding: 2px'>" + marker.title + "</div>"
