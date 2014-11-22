@@ -69,3 +69,36 @@ class SqUser(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+class Gate(models.Model):
+    point_id = models.AutoField(unique=True, primary_key=True)
+    coord_x = models.FloatField()
+    coord_y = models.FloatField()
+    type = models.CharField(max_length=50)
+
+    def __str__(self):
+        return '%s %s' %(self.coord_x, self.coord_y)
+
+
+class Check(models.Model):
+    type = models.CharField(max_length=10)
+    timestamp = models.DateTimeField()
+    card_id = models.ForeignKey('Trip')
+    gate_id = models.ForeignKey('Gate')
+
+
+class Trip(models.Model):
+    id = models.AutoField(unique=True, primary_key=True)
+    point_start = models.ForeignKey(Gate, related_name='point_start')
+    point_finish = models.ForeignKey(Gate, related_name='point_finish')
+
+    def __str__(self):
+        return '%d' %(self.id)
+
+
+
+
+
+
+
+

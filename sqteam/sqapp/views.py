@@ -11,11 +11,14 @@ from .forms import UserCreationForm
 
 from django.contrib import messages
 
+from .models import Gate, Check, Trip
 
 
 def index(request):
+
     login_form = AuthenticationForm()
     signup_form = UserCreationForm()
+    incorrect_trip()
     return render(request, 'index.html', {'login_form': login_form,
                                           'signup_form': signup_form})
 
@@ -59,4 +62,17 @@ def signup_func(request):
 
 def app_view(request):
     return render(request, 'app.html')
+
+def incorrect_trip():
+    trips = Trip.objects.all()
+    bad_trips = []
+    for trip in trips:
+        check_in = Check.objects.get(type='in',card_id=trip.id)
+        check_out = Check.objects.get(type='out',card_id=trip.id)
+        if trip.point_start == check_in.gate_id and trip.point_finish == check_out.gate_id:
+            print('good trip')
+        else:
+            bad_trips.append(trip)
+    bad_trips_per = len(bad_trips)/len(trips)*100
+    print(bad_trips, bad_trips_per)
 
