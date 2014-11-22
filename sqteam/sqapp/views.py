@@ -62,12 +62,12 @@ def signup_func(request):
 
 
 def trip_cards(request):
-    print(request.GET['trip_number'])
-    trips = Trip.objects.filter(card=Card.objects.get(request.POST['trip_number']))
+    card = Card.objects.get(number=request.GET['trip_number'])
+    trips = Trip.objects.filter(card=card)
     points = []
     for trip in trips:
-        start = Gate.objects.get(point_id=trip.point_start)
-        finish = Gate.objects.get(point_id=trip.point_finish)
+        start = trip.point_start
+        finish = trip.point_finish
         points.append({'x_start':start.coord_x,'y_start':start.coord_y,'x_finish':finish.coord_x,'y_finish':finish.coord_y})
     return JsonResponse({'trips':points})
 
