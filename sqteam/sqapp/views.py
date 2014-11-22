@@ -11,7 +11,7 @@ from .forms import UserCreationForm
 
 from django.contrib import messages
 
-from .models import Gate, Check, Trip
+from .models import Gate, Check, Trip, Card
 
 
 def index(request):
@@ -60,10 +60,24 @@ def signup_func(request):
                          'errors': signup_form.errors})
 
 
+
+def trip_cards(request):
+    print(request.GET['trip_number'])
+    trips = Trip.objects.filter(card=Card.objects.get(request.POST['trip_number']))
+    points = []
+    for trip in trips:
+        start = Gate.objects.get(point_id=trip.point_start)
+        finish = Gate.objects.get(point_id=trip.point_finish)
+        points.append({'x_start':start.coord_x,'y_start':start.coord_y,'x_finish':finish.coord_x,'y_finish':finish.coord_y})
+    return JsonResponse({'trips':points})
+
+
 def app_view(request):
     trips, per = incorrect_trip()
+    cards = Card.objects.all()
     return render(request, 'app.html', {'trips': trips,
-                                        'percentage': per})
+                                        'percentage': per,
+                                        'cards': cards})
 
 def incorrect_trip():
     trips = Trip.objects.all()

@@ -4,7 +4,7 @@
 
 
 {% block scripts %}
-    <script src={% static "js/chart.js" %}></script>
+    <script src= "{% static 'js/chart.js' %}"  ></script>
 {% endblock %}
 
 {% block styles %}
@@ -32,7 +32,7 @@
 </nav>
 
     <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
-
+            {% csrf_token %}
             <div class="uk-grid" data-uk-grid-margin>
                 <div class="uk-width-1-1">
 
@@ -63,7 +63,7 @@
 
                     </tbody>
                 </table>
-                <div class="uk-row">
+                <div class="uk-grid">
                     <div class="uk-width-3-4">
                         <canvas id="myChart" width="400" height="400"></canvas>
                     </div>
@@ -89,8 +89,46 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="uk-grid">
+
+                    <div class="uk-width-3-4">
+                        <div style='margin-bottom:10px'>
+                            <label>Select card # </label>
+                            <select id='trip-number'>
+                                {% for card in cards %}
+                                    <option>{{ card.number }}</option>
+                                {% endfor %}
+                            </select>
+                            <a id='trip-button'>Get trips!</a>
+                        </div>
+                        <div id='map-canvas'></div>
+                    </div>
                 </div>
             </div>
+            <script>
+                $(function(){
+                    $("#trip-button").click(function(event) {
+                        event.preventDefault();
+                        alert($('#trip-number').val());
+
+                        var csrftoken = $.cookie('csrftoken');
+                        var trip_num = $('#trip-number').val();
+                        $.ajax({
+                            type: "GET",
+                            url: '/card',
+                            data: {
+                                trip_number: trip_num,
+                                csrfmiddlewaretoken: csrftoken
+                            }
+                        })
+                        .done(function(msg) {
+                            alert(msg);
+
+                        });
+                    });
+                });
+            </script>
 
         </div>
 
@@ -136,5 +174,5 @@
 {% endblock %}
 
 {% block bottom_scripts %}
-<script src={% static "js/app.js" %}></script>
+<script src="{% static 'js/app.js' %}"></script>
     {% endblock %}
