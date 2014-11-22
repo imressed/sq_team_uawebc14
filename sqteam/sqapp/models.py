@@ -70,6 +70,7 @@ class SqUser(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+
 class Gate(models.Model):
     point_id = models.AutoField(unique=True, primary_key=True)
     coord_x = models.FloatField()
@@ -83,12 +84,13 @@ class Gate(models.Model):
 class Check(models.Model):
     type = models.CharField(max_length=10)
     timestamp = models.DateTimeField()
-    card_id = models.ForeignKey('Trip')
-    gate_id = models.ForeignKey('Gate')
+    trip = models.ForeignKey('Trip')
+    gate = models.ForeignKey('Gate')
 
 
 class Trip(models.Model):
-    id = models.AutoField(unique=True, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    card = models.ForeignKey('Card')
     point_start = models.ForeignKey(Gate, related_name='point_start')
     point_finish = models.ForeignKey(Gate, related_name='point_finish')
 
@@ -96,8 +98,12 @@ class Trip(models.Model):
         return '%d' %(self.id)
 
 
+class Card(models.Model):
+    id = models.AutoField(primary_key=True)
+    number = models.CharField(max_length=100)
 
-
+    def __str__(self):
+        return self.number
 
 
 

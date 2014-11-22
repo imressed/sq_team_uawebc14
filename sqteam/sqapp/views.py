@@ -79,3 +79,4 @@ def incorrect_trip():
     bad_trips_per = len(bad_trips)/len(trips)*100
     return bad_trips, bad_trips_per
 
+def total_load(request):
