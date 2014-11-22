@@ -78,3 +78,15 @@ def incorrect_trip():
             bad_trips.append(trip)
     bad_trips_per = len(bad_trips)/len(trips)*100
     return bad_trips, bad_trips_per
+
+
+def total_load(request):
+    all_checks = Check.objects.all()
+    print(all_checks)
+    res = []
+    for c in all_checks:
+        if c.gate.type == 'metro':
+            res.append(c)
+    #metro = Check.objects.filter(gate__type == 'metro') # WHAT'S WRONG????
+
+    return JsonResponse(res.count())

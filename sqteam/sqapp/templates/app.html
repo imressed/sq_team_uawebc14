@@ -4,7 +4,7 @@
 
 
 {% block scripts %}
-    <script src={% static "js/chart.js" %}></script>
+    <script src="{% static 'js/chart.js' %}"></script>
 {% endblock %}
 
 {% block styles %}
@@ -63,29 +63,32 @@
 
                     </tbody>
                 </table>
-                <div class="uk-row">
+                <div class="uk-grid">
                     <div class="uk-width-3-4">
                         <canvas id="myChart" width="400" height="400"></canvas>
                     </div>
                     <div class="uk-width-1-4">
+                    <div class="uk-form-row">
                         <label>Show only for transport type:</label>
-                        <select>
-                            <option>All</option>
-                            <option>Metro</option>
-                            <option>Train</option>
-                            <option>Tram</option>
-                            <option>Trolley</option>
-                            <option>Bus</option>
+                        <select id="type-select">
+                            <option value="all">All</option>
+                            <option value="metro">Metro</option>
+                            <option value="train">Train</option>
+                            <option value="tram">Tram</option>
+                            <option value="trolley">Trolley</option>
+                            <option value="bus">Bus</option>
                         </select>
+                    </div>
+                    <div class="uk-form-row">
+
 
                         <label>Show only for period:</label>
-                        <select>
-                            <option>All</option>
-                            <option>Metro</option>
-                            <option>Train</option>
-                            <option>Tram</option>
-                            <option>Trolley</option>
-                            <option>Bus</option>
+                        <select id="period-select">
+                            <option value="all">All</option>
+                            <option value="day">Day</option>
+                            <option value="week">Week</option>
+                            <option value="month">Month</option>
+
                         </select>
                     </div>
                 </div>
