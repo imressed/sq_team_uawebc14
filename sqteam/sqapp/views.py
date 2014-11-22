@@ -11,7 +11,7 @@ from .forms import UserCreationForm
 
 from django.contrib import messages
 
-from .models import Gate, Check, Trip
+from .models import Gate, Check, Trip, Card
 
 
 def index(request):
@@ -78,7 +78,8 @@ def app_view(request):
     cards = Card.objects.all()
     return render(request, 'app.html', {'trips': trips,
                                         'percentage': per,
-                                        'cards': cards})
+                                        'cards': cards,
+                                        'trips_count': trips_count})
 
 def incorrect_trip():
     trips = Trip.objects.all()
